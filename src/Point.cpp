@@ -21,13 +21,12 @@ del::Point::~Point(){};
 
 std::string del::Point::to_string( void )
 {
-	std::string str = "(";
+	std::string str = "";
 	str += std::to_string( this->x );
-	str += ",";
+	str += " ";
 	str += std::to_string( this->y );
-	str += ",";
+	str += " ";
 	str += std::to_string( this->z );
-	str += ")";
     return str;
 }
 

@@ -1,23 +1,27 @@
+<<<<<<< HEAD
 #include <cstddef>
 #include <sys/stat.h>
 #include <sys/types.h>
+=======
+>>>>>>> refatoracao/triangle_building
 #include <stdio.h>
 #include <math.h>
-//#include <stdlib.h>
 #include <string>
+#include <unistd.h>
 #include <iostream>
 #include <functional>
-
 #include <time.h>
 #include <array>
+<<<<<<< HEAD
 #include <vector>
+=======
+>>>>>>> refatoracao/triangle_building
 #include <fstream>
-
 #include <bits/stdc++.h>
-
 #include "Point.cpp"
 #include "Point.hpp"
 #include "Set.hpp"
+<<<<<<< HEAD
 #include "Vizinhanca.cpp"
 #include "Centro_Esfera_Aprox.cpp"
 #include "triangle_building.cpp"
@@ -27,13 +31,17 @@
 #include "find_z_max.cpp"
 
 #define NEIGHBOORHOOD_MAX_SIZE 6
+=======
+>>>>>>> refatoracao/triangle_building
 
+#define NEIGHBORHOOD_MAX_SIZE 6
 
 long timeBetween( long before, long after ) {
 	return ( after - before ) * 1000 / CLOCKS_PER_SEC;
 }
 
-void appendToFile ( std::string fileName, std::string line ) {
+void appendToFile ( std::string fileName, std::string line )
+{
 	std::ofstream fout;
 	std::ifstream fin;
 	fin.open( fileName );
@@ -70,8 +78,6 @@ char* cliHandler ( int argc, char* argv[] )
 	return filename;
 }
 
-
-
 int main( int argc, char* argv[] )
 {
 
@@ -80,9 +86,10 @@ int main( int argc, char* argv[] )
 	time_t t[ 2 ];
 	int listSize;
 	FILE* file;
+	char* filename;
 	try
 	{
-		char* filename = cliHandler( argc, argv );
+		filename = cliHandler( argc, argv );
 		file = fopen( filename, "r" );
 		if ( file == NULL  ) {
 			std::cout << "Arquivo não pode ser aberto: Não existe ou está sendo editado por outro programa." << std::endl;
@@ -100,7 +107,7 @@ int main( int argc, char* argv[] )
 		std::cerr << e.what() << '\n';
 	}
 
-	del::Point* points = new del::Point[ listSize ];
+	del::Point points[ listSize ];
 	del::Point pointsCopy[ listSize ];
 	
 	{
@@ -118,13 +125,15 @@ int main( int argc, char* argv[] )
 	}
 	fclose( file );
 
-	del::Point* neighbhd[ NEIGHBOORHOOD_MAX_SIZE ]; // = new[] del::Point[ listSize ][ NEIGHBOORHOOD_MAX_SIZE ];
-	del::Set set ( points, listSize );
-	std::cout << set.to_string() << std::endl;
+	del::Point neighbhd[ NEIGHBORHOOD_MAX_SIZE ];
+	del::Set<del::Point> set ( listSize, points );
+	del::Set<del::Point> subset ( NEIGHBORHOOD_MAX_SIZE );
+	del::Point p;
 
-
+	ftruncate( fileno( file ), 0 );
 	for ( size_t i = 0; i < listSize; i++ )
 	{
+<<<<<<< HEAD
 		for ( size_t j = 0; j < listSize; j++ )
 		{
 			set.orderByDistance( del::Point (0,0,8) );
@@ -369,8 +378,13 @@ int main( int argc, char* argv[] )
 	//repita até computar todas as faixas de dados
 
 
-	return EXIT_SUCCESS;
-	// compilação e utilização testada até esta linha
-	// conteúdo abaixo não foi testado ainda!
+=======
+		p = set.points[ i ];
+		set.orderByDistance( p );
+		set.subSetFromTop( subset );
+		appendToFile( filename, subset.to_string() );
+	}
 
+>>>>>>> refatoracao/triangle_building
+	return EXIT_SUCCESS;
 }

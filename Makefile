@@ -2,7 +2,7 @@
 # CC - Compilador
 CC = g++
 # BIN_FILE - nome do arquivo binário resultante
-BIN_FILE = conversor-stl
+BIN_FILE = nbhd
 # BIN_TEST - nome do arquivo binário de teste
 BIN_TEST = run-test
 # TEST_DIR - diretório para arquivos de testes
