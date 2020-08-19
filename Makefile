@@ -1,6 +1,7 @@
+# https://stackoverflow.com/a/8671381/5382576
 # O nome das variáveis são totalmente arbitrárias mas segui um padrão de nomenclatura comum.
 # CC - Compilador
-CC = g++
+CC = gcc
 # BIN_FILE - nome do arquivo binário resultante
 BIN_FILE = nbhd
 # BIN_TEST - nome do arquivo binário de teste
@@ -8,21 +9,22 @@ BIN_TEST = run-test
 # TEST_DIR - diretório para arquivos de testes
 TEST_DIR = tests
 # TEST_FILES - arquivos cpp para testes
-TEST_FILES = $(wildcard $(TEST_DIR)/*.cpp)
+TEST_FILES = $(wildcard $(TEST_DIR)/*.c)
 # CC_FLAGS - opções de compilação geral
-CC_FLAGS = -std=c++11
+# https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
+CC_FLAGS = -std=c18 -lm
 # CC_TEST_FLAGS - opções de compilação para tetes
-CC_TEST_FLAGS = $(CC_FLAGS) -Wall
+CC_TEST_FLAGS = $(CC_FLAGS)
 # CC_FLAGS - opções de compilação para o app
 CC_APP_FLAGS = $(CC_FLAGS)
-# CPP_FILES - arquivos cpp
-CPP_FILES = $(wildcard src/*.cpp)
-# HPP_FILES - arquivos hpp
-HPP_FILES = $(wildcard src/*.hpp)
+# C_FILES - arquivos cpp
+C_FILES = $(wildcard src/*.c)
+# H_FILES - arquivos hpp
+H_FILES = $(wildcard src/*.h)
 # LIBS_HEADER - arquivos hpp
-LIBS_HEADER = $(wildcard libs/*.hpp)
+LIBS_HEADER = $(wildcard libs/*.h)
 # OBJ_FILES - arquivos .o oriundas da compilação
-OBJ_FILES = $(CPP_FILES:.c=.o)
+OBJ_FILES = $(C_FILES:.c=.o)
 # OBJ_DIR - diretório para arquivos de objetos .o
 OBJ_DIR = obj
 
@@ -33,12 +35,12 @@ $(BIN_FILE): $(OBJ_FILES)
 	$(CC) $^ -o $@
 	@ echo " "
 
-$(OBJ_DIR)/%.o: src/%.cpp src/%.hpp
+$(OBJ_DIR)/%.o: src/%.c src/%.h
 	@ echo "Construindo objetos a partir do compilador do GCC: $<"
 	$(CC) $< $(CC_APP_FLAGS) -o $@
 	@ echo " "
 
-$(OBJ_DIR)/main.o: src/main.cpp $(LIBS_HEADER) $(HPP_FILES)
+$(OBJ_DIR)/main.o: src/main.c $(LIBS_HEADER) $(H_FILES)
 	@ echo "Construindo objetos a partir do compilador do GCC: $<"
 	$(CC) $< $(CC_APP_FLAGS) -o $@
 	@ echo " "
