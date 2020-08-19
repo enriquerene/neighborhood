@@ -3,16 +3,6 @@
 #include <errno.h>
 #include <math.h>
 
-typedef float distance;
-typedef struct
-{
-	int x,
-		y,
-		z;
-} Point;
-
-#define MAX_STR_SIZE 20
-
 char *readLine ( FILE *file_ptr )
 {
 	char *line;
@@ -60,14 +50,6 @@ void *getPoints ( FILE *file_ptr, int number_of_pts, Point *points )
 //	fout.close();
 //}
 
-distance Distance ( Point P1, Point P2 )
-{
-	distance Dx = pow( P1.x - P2.x, 2 );
-	distance Dy = pow( P1.y - P2.y, 2 );
-	distance Dz = pow( P1.z - P2.z, 2 );
-	return sqrt( Dx + Dy + Dz );
-}
-
 char* cliHandler ( int argc, char* argv[] )
 {
 	char* filename; // char* instead string because of fopen use bellow
@@ -80,21 +62,4 @@ char* cliHandler ( int argc, char* argv[] )
 	}
 	filename = argv[ 1 ];
 	return filename;
-}
-
-int main( int argc, char* argv[] )
-{
-	char *filename = cliHandler( argc, argv );
-	char *number_in_char;
-	FILE *fd = fopen( filename, "r" );
-
-	int number_of_pts = getNumberOfPoints( fd );
-	Point points[ number_of_pts ];
-	getPoints( fd, number_of_pts, points );
-
-	number_of_pts = getNumberOfPoints( fd );
-	Point shadow[ number_of_pts ];
-	getPoints( fd, number_of_pts, shadow );
-
-	return EXIT_SUCCESS;
 }
